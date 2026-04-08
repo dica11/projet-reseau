@@ -1,0 +1,25 @@
+# Environnements Python
+waf_env/
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Logs runtime
+waf_access.log
+*.log
+
+# Fichiers temporaires
+Untitled-1.txt
+*.tmp
+*.bak
+
+# OS
+.DS_Store
+Thumbs.db
