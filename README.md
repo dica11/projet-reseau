@@ -68,7 +68,7 @@ waf_env\Scripts\Activate.ps1
 
 ### 3. Installer les dependances
 ```bash
-pip install numpy pandas matplotlib seaborn scikit-learn joblib flask requests
+pip install -r requirements.txt
 ```
 
 ### 4. Generer le modele (executer le notebook)
@@ -197,6 +197,7 @@ HTTP 403
 | Presentation 10 slides | `presentation_slides.md` |
 | Modele exporte | `waf_model.joblib` |
 | Dataset nettoye | `donnees_nettoyees.csv` |
+| Dependances Python | `requirements.txt` |
 
 ---
 

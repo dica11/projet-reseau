@@ -305,4 +305,32 @@ projet-reseau/
 
 ---
 
-*Rapport généré le 7 avril 2026 — projet-reseau / dica11*
+## 9. Bibliographie
+
+[1] OWASP Foundation. *OWASP Top Ten Web Application Security Risks*. https://owasp.org/www-project-top-ten/, 2021.
+
+[2] Verizon. *Data Breach Investigations Report (DBIR)*. Verizon Business, 2024.
+
+[3] Torrano-Gimenez, C., Perez-Villegas, A., Alvarez, G. *HTTP CSIC 2010 Dataset for Anomalous Web Requests*. Spanish National Research Council (CSIC), 2010.
+
+[4] Sharafaldin, I., Habibi Lashkari, A., Ghorbani, A. A. *Toward Generating a New Intrusion Detection Dataset and Intrusion Traffic Characterization*. Proceedings of the 4th International Conference on Information Systems Security and Privacy (ICISSP), 2018.
+
+[5] Pedregosa, F. et al. *Scikit-learn: Machine Learning in Python*. Journal of Machine Learning Research, 12, 2825-2830, 2011.
+
+[6] Breiman, L. *Random Forests*. Machine Learning, 45(1), 5-32, 2001.
+
+[7] Cortes, C., Vapnik, V. *Support-Vector Networks*. Machine Learning, 20(3), 273-297, 1995.
+
+[8] Rumelhart, D. E., Hinton, G. E., Williams, R. J. *Learning representations by back-propagating errors*. Nature, 323, 533-536, 1986.
+
+[9] Sharma, R., Singh, A. *Machine Learning based Web Application Firewall for Detection of SQL Injection Attacks*. International Journal of Computer Applications, 2023.
+
+[10] Palczewska, A., Palczewski, J. et al. *Interpreting Random Forest classification models using a feature contribution method*. Springer, 2014.
+
+[11] ModSecurity. *OWASP ModSecurity Core Rule Set (CRS)*. https://owasp.org/www-project-modsecurity-core-rule-set/, 2023.
+
+[12] Amazon Web Services. *AWS WAF - Web Application Firewall*. https://aws.amazon.com/waf/, 2024.
+
+---
+
+*Rapport genere le 7 avril 2026 — projet-reseau / dica11*
