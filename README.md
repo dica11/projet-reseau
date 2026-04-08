@@ -26,6 +26,16 @@ Conception et implementation d'un Web Application Firewall (WAF) intelligent cap
 
 **Suite de tests : 14/14 reussis (100 %)**
 
+**Simulation OWASP ZAP Active Scanner : 47/50 payloads bloques (94 %) — 0 faux positif**
+
+| Categorie ZAP | Bloques / Total |
+|---|---|
+| SQL Injection | 15/15 |
+| XSS | 9/9 |
+| Command Injection | 10/10 |
+| Remote File Include | 4/4 |
+| Path Traversal | 9/12 |
+
 ---
 
 ## Structure du projet
@@ -35,6 +45,7 @@ projet-reseau/
 |-- waf_etapes.ipynb        # Notebook ML complet (exploration, features, modeles)
 |-- waf_flask_app.py        # Proxy WAF Flask avec 5 endpoints
 |-- test_flask_waf.py       # Suite de 14 tests automatises
+|-- test_owasp_zap.py       # Simulation OWASP ZAP active scanner (50 payloads reels)
 |-- waf_model.joblib        # Modele MLPClassifier exporte (sklearn)
 |-- donnees_nettoyees.csv   # Dataset nettoye apres feature engineering
 |-- rapport.md              # Rapport scientifique complet (~15 pages)
@@ -85,6 +96,12 @@ Le serveur demarre sur `http://localhost:5000`.
 Dans un second terminal :
 ```bash
 python test_flask_waf.py
+```
+
+### 7. Simuler une attaque OWASP ZAP (optionnel)
+Avec le serveur WAF actif :
+```bash
+python test_owasp_zap.py
 ```
 
 ---
@@ -183,6 +200,7 @@ HTTP 403
 - **Flask** - proxy WAF et API REST
 - **joblib** - serialisation du modele
 - **Jupyter Notebook** - exploration et visualisation
+- **python-owasp-zap-v2.4** - payloads OWASP ZAP active scanner
 
 ---
 
@@ -192,7 +210,8 @@ HTTP 403
 |---|---|
 | Notebook ML complet | `waf_etapes.ipynb` |
 | Prototype WAF | `waf_flask_app.py` |
-| Tests automatises | `test_flask_waf.py` |
+| Tests automatises (14/14) | `test_flask_waf.py` |
+| Simulation OWASP ZAP (94%) | `test_owasp_zap.py` |
 | Rapport scientifique | `rapport.md` |
 | Presentation 10 slides | `presentation_slides.md` |
 | Modele exporte | `waf_model.joblib` |

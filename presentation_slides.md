@@ -157,6 +157,19 @@ User-Agent: sqlmap/1.6.10
 
 **Suite de tests : 14/14 réussis (100 %)**
 
+**Simulation OWASP ZAP Active Scanner (`test_owasp_zap.py`) :**
+
+| Catégorie | Bloqués |
+|---|---|
+| SQL Injection (15 payloads) | 15/15 — 100 % |
+| XSS (9 payloads) | 9/9 — 100 % |
+| Command Injection (10 payloads) | 10/10 — 100 % |
+| Remote File Include (4 payloads) | 4/4 — 100 % |
+| Path Traversal (12 payloads) | 9/12 — 75 % |
+| **Total** | **47/50 — 94 %** |
+
+0 faux positifs sur trafic normal.
+
 ---
 
 ## Slide 9 — Limites et perspectives
@@ -185,7 +198,7 @@ User-Agent: sqlmap/1.6.10
  **Semaine 1** — Environnement Python 3.12, GitHub, revue de littérature  
  **Semaine 2** — Dataset, 29 features, 4 modèles, MLPClassifier F1=1.0  
  **Semaine 3** — Proxy WAF Flask, 5 endpoints, proxy temps réel  
- **Semaine 4** — Tests (14/14), rapport, présentation  
+ **Semaine 4** — Tests (14/14), simulation OWASP ZAP (94%), rapport, présentation  
 
 **Ce qu'on a prouvé :**
 > Un modèle ML peut classifier du trafic HTTP malicieux avec une précision parfaite sur des données synthétiques et bloquer les attaques en temps réel via un proxy Flask.
