@@ -1,0 +1,6 @@
+{
+    "python.defaultInterpreterPath": "C:\\Users\\wizab\\waf_env\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\wizab\\waf_env\\Scripts\\python.exe",
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "jupyter.kernels.filter": []
+}
