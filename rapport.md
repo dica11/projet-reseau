@@ -167,6 +167,21 @@ La suite de 14 tests automatisés (`test_flask_waf.py`) valide le comportement d
 
 **Résultat global : 14/14 tests réussis (100 %)**
 
+### 4.4 Simulation OWASP ZAP Active Scanner
+
+Un second script (`test_owasp_zap.py`) reproduit les payloads réels de l'active scanner OWASP ZAP en les envoyant sur le proxy WAF. Les payloads proviennent directement du code source des modules ZAP (`zap-extensions/addOns/ascanrules`).
+
+| Catégorie ZAP | Payloads | Bloqués | Taux |
+|---|---|---|---|
+| SQL Injection (`TestSQLInjection`) | 15 | 15 | 100 % |
+| Path Traversal (`TestPathTraversal`) | 12 | 9 | 75 % |
+| XSS (`TestCrossSiteScripting`) | 9 | 9 | 100 % |
+| Command Injection (`TestRemoteOSCommandInjection`) | 10 | 10 | 100 % |
+| Remote File Include (`TestRemoteFileInclude`) | 4 | 4 | 100 % |
+| **TOTAL** | **50** | **47** | **94 %** |
+
+Les 3 payloads non bloqués correspondent à des chemins absolus comme `/etc/passwd` sans séquence de traversal — Flask retourne une redirection HTTP 308 avant que le WAF ne puisse les classifier. Aucun faux positif n'a été observé sur le trafic normal.
+
 ---
 
 ## 5. Architecture du prototype
@@ -265,6 +280,7 @@ projet-reseau/
 ├── waf_etapes.ipynb         # Notebook ML complet (exploration → modèle)
 ├── waf_flask_app.py         # Proxy WAF Flask
 ├── test_flask_waf.py        # Suite de tests (14 tests)
+├── test_owasp_zap.py        # Simulation OWASP ZAP active scanner (50 payloads)
 ├── waf_model.joblib         # Modèle MLPClassifier exporté
 ├── donnees_nettoyees.csv    # Dataset nettoyé après feature engineering
 ├── setup_env.ps1            # Script d'installation Python 3.12
