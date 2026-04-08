@@ -100,7 +100,7 @@ Transférer  Bloquer (403)
 
 | Modèle | Accuracy | Precision | Recall | **F1** |
 |---|---|---|---|---|
-| **🏆 Neural Network (MLP)** | **1.000** | **1.000** | **1.000** | **1.000** |
+| ** Neural Network (MLP)** | **1.000** | **1.000** | **1.000** | **1.000** |
 | Logistic Regression | 0.900 | 1.000 | 0.500 | 0.667 |
 | Random Forest | 0.900 | 1.000 | 0.500 | 0.667 |
 | SVM | 0.900 | 1.000 | 0.500 | 0.667 |
@@ -125,10 +125,10 @@ Réel MALICIEUX          0               4
 
 | | Valeur |
 |---|---|
-| ✅ Vrais positifs (attaques détectées) | 4 / 4 |
-| ✅ Vrais négatifs (normales autorisées) | 16 / 16 |
-| ❌ Faux positifs (blocage abusif) | **0** |
-| ❌ Faux négatifs (attaques manquées) | **0** |
+|  Vrais positifs (attaques détectées) | 4 / 4 |
+|  Vrais négatifs (normales autorisées) | 16 / 16 |
+|  Faux positifs (blocage abusif) | **0** |
+|  Faux négatifs (attaques manquées) | **0** |
 
 ---
 
@@ -171,10 +171,10 @@ User-Agent: sqlmap/1.6.10
 | Modèle statique | Dégradation dans le temps | Ré-entraînement automatique |
 
 **Perspectives :**
-- 🔬 LSTM / Transformers pour analyser la structure séquentielle des URL
-- 📊 Features comportementales (fréquence, trajectoire de navigation)
-- 🔗 Intégration SIEM pour supervision centralisée
-- 🛡️ Tests d'évasion adversariale (robustesse)
+-  LSTM / Transformers pour analyser la structure séquentielle des URL
+-  Features comportementales (fréquence, trajectoire de navigation)
+-  Intégration SIEM pour supervision centralisée
+-  Tests d'évasion adversariale (robustesse)
 
 ---
 
@@ -182,10 +182,10 @@ User-Agent: sqlmap/1.6.10
 
 **Bilan du projet**
 
-✅ **Semaine 1** — Environnement Python 3.12, GitHub, revue de littérature  
-✅ **Semaine 2** — Dataset, 29 features, 4 modèles, MLPClassifier F1=1.0  
-✅ **Semaine 3** — Proxy WAF Flask, 5 endpoints, proxy temps réel  
-✅ **Semaine 4** — Tests (14/14), rapport, présentation  
+ **Semaine 1** — Environnement Python 3.12, GitHub, revue de littérature  
+ **Semaine 2** — Dataset, 29 features, 4 modèles, MLPClassifier F1=1.0  
+ **Semaine 3** — Proxy WAF Flask, 5 endpoints, proxy temps réel  
+ **Semaine 4** — Tests (14/14), rapport, présentation  
 
 **Ce qu'on a prouvé :**
 > Un modèle ML peut classifier du trafic HTTP malicieux avec une précision parfaite sur des données synthétiques et bloquer les attaques en temps réel via un proxy Flask.

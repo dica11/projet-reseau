@@ -157,13 +157,13 @@ La suite de 14 tests automatisés (`test_flask_waf.py`) valide le comportement d
 
 | Test | Résultat | Probabilité malicieuse |
 |---|---|---|
-| Requête GET normale `/products` | ✅ AUTORISÉ | 2.1% |
-| SQLi `UNION SELECT` (sqlmap UA) | ✅ BLOQUÉ (HTTP 403) | 100.0% |
-| Path traversal `/../../../../etc/passwd` | ✅ BLOQUÉ | 100.0% |
-| Scan Nikto `/phpmyadmin/index.php` | ✅ BLOQUÉ | 98.9% |
-| Shell upload `/upload.php?file=shell.php` | ✅ BLOQUÉ | 100.0% |
-| `/proxy` SQLi (trafic HTTP réel) | ✅ BLOQUÉ (HTTP 403) | 100.0% |
-| `/proxy` requête normale | ✅ TRANSFÉRÉ (HTTP 200) | 0.1% |
+| Requête GET normale `/products` | AUTORISÉ | 2.1% |
+| SQLi `UNION SELECT` (sqlmap UA) |  BLOQUÉ (HTTP 403) | 100.0% |
+| Path traversal `/../../../../etc/passwd` |  BLOQUÉ | 100.0% |
+| Scan Nikto `/phpmyadmin/index.php` | BLOQUÉ | 98.9% |
+| Shell upload `/upload.php?file=shell.php` |  BLOQUÉ | 100.0% |
+| `/proxy` SQLi (trafic HTTP réel) |  BLOQUÉ (HTTP 403) | 100.0% |
+| `/proxy` requête normale |  TRANSFÉRÉ (HTTP 200) | 0.1% |
 
 **Résultat global : 14/14 tests réussis (100 %)**
 
