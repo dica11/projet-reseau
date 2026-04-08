@@ -1,0 +1,7 @@
+pip install --force-reinstall --upgrade numpy scikit-learn
+
+# Charger le dataset réel
+df = pd.read_csv('nom_du_fichier.csv')  # Remplace par le vrai nom de ton fichier
+df.head()  # Affiche les premières lignes pour explorer la structure
+df.info()  # Affiche des infos sur les types et les valeurs manquantes
+df.describe()  # Statistiques de basepip install --force-reinstall --upgrade numpy scikit-learnpip install --force-reinstall --upgrade numpy scikit-learn
