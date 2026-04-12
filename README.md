@@ -1,4 +1,4 @@
-# WAF intelligent - Detection d'attaques web par Machine Learning
+﻿# WAF intelligent - Detection d'attaques web par Machine Learning
 
 Projet reseau - Avril 2026
 
@@ -26,7 +26,7 @@ Conception et implementation d'un Web Application Firewall (WAF) intelligent cap
 
 **Suite de tests : 14/14 reussis (100 %)**
 
-**Simulation OWASP ZAP Active Scanner : 47/50 payloads bloques (94 %) — 0 faux positif**
+**Simulation OWASP ZAP Active Scanner : 47/50 payloads bloques (94 %)  0 faux positif**
 
 | Categorie ZAP | Bloques / Total |
 |---|---|
@@ -186,7 +186,7 @@ HTTP 403
 | Analyse /analyze requete normale | PASS - 29 features |
 | Analyse /analyze requete malicieuse | PASS - MALICIEUX |
 | Proxy /proxy SQLi bloquee HTTP 403 | PASS |
-| Proxy /proxy requete normale transféree | PASS - HTTP 200 |
+| Proxy /proxy requete normale transfree | PASS - HTTP 200 |
 | Corps JSON invalide | PASS - HTTP 400 (pas de crash) |
 | Compteurs /stats mis a jour | PASS |
 
@@ -224,3 +224,4 @@ HTTP 403
 
 - Projet reseau - Cours securite des reseaux - Avril 2026
 - Repository : https://github.com/dica11/projet-reseau
+

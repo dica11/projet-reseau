@@ -1,19 +1,20 @@
-# Discussion, limites et perspectives
+﻿# Discussion, limites et perspectives
 
-## Limites du modèle
-- Dépendance à la qualité et à la diversité du dataset (risque de surapprentissage)
-- Difficulté à détecter des attaques zero-day ou très sophistiquées
-- Possibles biais si certaines attaques sont sous-représentées
-- Modèle sensible à l’évolution des techniques d’attaque
+## Limites du modle
+- Dpendance  la qualit et  la diversit du dataset (risque de surapprentissage)
+- Difficult  dtecter des attaques zero-day ou trs sophistiques
+- Possibles biais si certaines attaques sont sous-reprsentes
+- Modle sensible  lvolution des techniques dattaque
 
-## Robustesse et généralisabilité
-- Les modèles ML peuvent être trompés par des attaques d’évasion (adversarial)
-- Les features extraites sont simples : un attaquant peut les contourner
-- Nécessité de mettre à jour régulièrement le modèle et les features
+## Robustesse et gnralisabilit
+- Les modles ML peuvent tre tromps par des attaques dvasion (adversarial)
+- Les features extraites sont simples: un attaquant peut les contourner
+- Ncessit de mettre  jour rgulirement le modle et les features
 
-## Perspectives d’amélioration
-- Tester des modèles de deep learning (LSTM, Transformers) pour mieux capter la structure des requêtes
-- Ajouter des features comportementales (fréquence, séquence de requêtes, etc.)
-- Intégrer un système de détection d’anomalies non supervisé
-- Coupler le WAF à un SIEM pour une supervision centralisée
-- Automatiser la collecte de nouveaux exemples pour améliorer le modèle
+## Perspectives damlioration
+- Tester des modles de deep learning (LSTM, Transformers) pour mieux capter la structure des requtes
+- Ajouter des features comportementales (frquence, squence de requtes, etc.)
+- Intgrer un systme de dtection danomalies non supervis
+- Coupler le WAF  un SIEM pour une supervision centralise
+- Automatiser la collecte de nouveaux exemples pour amliorer le modle
+

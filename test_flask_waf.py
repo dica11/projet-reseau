@@ -1,5 +1,5 @@
 """
-Tests du WAF intelligent — Suite complète (Semaine 4)
+Tests du WAF intelligent - Suite complete (Semaine 4)
 
 Lancer le serveur avant les tests :
   python waf_flask_app.py
@@ -21,14 +21,14 @@ def _req(method, path, **kwargs):
     return requests.request(method, BASE_URL + path, timeout=5, **kwargs)
 
 
-# ─────────────────────── Tests infrastructure ─────────────────────────────────────
+# ----------------------- Tests infrastructure --------------------------------------
 def test_health():
     r = _req('GET', '/health')
     assert r.status_code == 200, f"HTTP {r.status_code}"
     d = r.json()
     assert d['status'] == 'ok'
-    assert d['model_loaded'] is True, "Modèle non chargé !"
-    print(f"{PASS} /health           — modèle={d['model_type']}")
+    assert d['model_loaded'] is True, "Modele non charge !"
+    print(f"{PASS} /health           - modele={d['model_type']}")
 
 
 def test_index():
@@ -36,7 +36,7 @@ def test_index():
     assert r.status_code == 200
     d = r.json()
     assert 'endpoints' in d
-    print(f"{PASS} /               — {d['service']}")
+    print(f"{PASS} /               - {d['service']}")
 
 
 def test_stats_initial():
@@ -44,10 +44,10 @@ def test_stats_initial():
     assert r.status_code == 200
     d = r.json()
     assert 'total' in d and 'blocked' in d
-    print(f"{PASS} /stats             — total={d['total']}, blocked={d['blocked']}, taux={d['block_rate']}%")
+    print(f"{PASS} /stats             - total={d['total']}, blocked={d['blocked']}, taux={d['block_rate']}%")
 
 
-# ─────────────────────── Tests /predict ───────────────────────────────────────────
+# ----------------------- Tests /predict -------------------------------------------
 def test_normal_request():
     data = {
         'timestamp':      '2023-10-26T08:00:00',
@@ -62,7 +62,7 @@ def test_normal_request():
     d = r.json()
     assert d['prediction'] == 0, f"Attendu NORMAL (0), obtenu {d['prediction']}"
     prob = f"{d['probability_malicious']:.3f}" if d.get('probability_malicious') is not None else 'N/A'
-    print(f"{PASS} /predict normal    — verdict={d['verdict']}, proba={prob}")
+    print(f"{PASS} /predict normal    - verdict={d['verdict']}, proba={prob}")
 
 
 def test_sqli_attack():
@@ -77,9 +77,9 @@ def test_sqli_attack():
     r = _req('POST', '/predict', json=data)
     assert r.status_code == 200
     d = r.json()
-    assert d['prediction'] == 1, f"SQLi non détectée (prediction={d['prediction']})"
+    assert d['prediction'] == 1, f"SQLi non detectee (prediction={d['prediction']})"
     prob = f"{d['probability_malicious']:.3f}" if d.get('probability_malicious') is not None else 'N/A'
-    print(f"{PASS} /predict sqli      — verdict={d['verdict']}, proba={prob}")
+    print(f"{PASS} /predict sqli      - verdict={d['verdict']}, proba={prob}")
 
 
 def test_path_traversal():
@@ -96,7 +96,7 @@ def test_path_traversal():
     d = r.json()
     label = 'MALICIEUX' if d['prediction'] == 1 else 'NORMAL'
     mark  = PASS if d['prediction'] == 1 else INFO
-    print(f"{mark} /predict traversal — verdict={label}")
+    print(f"{mark} /predict traversal - verdict={label}")
 
 
 def test_nikto_scan():
@@ -111,8 +111,8 @@ def test_nikto_scan():
     r = _req('POST', '/predict', json=data)
     assert r.status_code == 200
     d = r.json()
-    assert d['prediction'] == 1, f"Nikto non détecté (prediction={d['prediction']})"
-    print(f"{PASS} /predict nikto     — verdict={d['verdict']}")
+    assert d['prediction'] == 1, f"Nikto non detecte (prediction={d['prediction']})"
+    print(f"{PASS} /predict nikto     - verdict={d['verdict']}")
 
 
 def test_shell_upload():
@@ -129,10 +129,10 @@ def test_shell_upload():
     d = r.json()
     label = 'MALICIEUX' if d['prediction'] == 1 else 'NORMAL'
     mark  = PASS if d['prediction'] == 1 else INFO
-    print(f"{mark} /predict shell     — verdict={label}")
+    print(f"{mark} /predict shell     - verdict={label}")
 
 
-# ─────────────────────── Tests /analyze ───────────────────────────────────────────
+# ----------------------- Tests /analyze -------------------------------------------
 def test_analyze_normal():
     data = {
         'timestamp':      '2023-10-26T08:05:00',
@@ -147,7 +147,7 @@ def test_analyze_normal():
     d = r.json()
     assert 'features' in d
     assert 'verdict' in d
-    print(f"{PASS} /analyze normal    — verdict={d['verdict']}, {len(d['features'])} features")
+    print(f"{PASS} /analyze normal    - verdict={d['verdict']}, {len(d['features'])} features")
 
 
 def test_analyze_malicious():
@@ -164,20 +164,20 @@ def test_analyze_malicious():
     d = r.json()
     assert d['verdict'] == 'MALICIEUX', f"Attendu MALICIEUX, obtenu {d['verdict']}"
     top_features = {k: v for k, v in d['features'].items() if v != 0}
-    print(f"{PASS} /analyze malicious — verdict={d['verdict']}, features actives={len(top_features)}")
+    print(f"{PASS} /analyze malicious - verdict={d['verdict']}, features actives={len(top_features)}")
 
 
-# ─────────────────────── Tests /proxy (mode WAF temps réel) ─────────────────────
+# ----------------------- Tests /proxy (mode WAF temps reel) -----------------------
 def test_proxy_blocks_sqli():
     r = _req(
         'GET', '/proxy/admin/users.php',
         params={'id': '1 UNION SELECT null,version()--'},
         headers={'User-Agent': 'sqlmap/1.6.10'}
     )
-    assert r.status_code == 403, f"Attendu 403 (bloqué), obtenu {r.status_code}"
+    assert r.status_code == 403, f"Attendu 403 (bloque), obtenu {r.status_code}"
     d = r.json()
-    assert 'bloquée' in d.get('error', '').lower() or 'malicieux' in d.get('reason', '').lower()
-    print(f"{PASS} /proxy bloqué      — SQLi bloquée (HTTP 403)")
+    assert 'bloquee' in d.get('error', '').lower() or 'malicieux' in d.get('reason', '').lower()
+    print(f"{PASS} /proxy bloque      - SQLi bloquee (HTTP 403)")
 
 
 def test_proxy_allows_normal():
@@ -185,31 +185,31 @@ def test_proxy_allows_normal():
         'GET', '/proxy/get',
         headers={'User-Agent': 'Mozilla/5.0 Chrome/107.0'}
     )
-    # 200 (backend répond) ou 502 (backend injoignable) — jamais 403
-    assert r.status_code != 403, "Requête normale incorrectement bloquée !"
+    # 200 (backend repond) ou 502 (backend injoignable) - jamais 403
+    assert r.status_code != 403, "Requete normale incorrectement bloquee !"
     mark = PASS if r.status_code == 200 else INFO
-    print(f"{mark} /proxy normal      — HTTP {r.status_code} (403 absent = OK)")
+    print(f"{mark} /proxy normal      - HTTP {r.status_code} (403 absent = OK)")
 
 
-# ─────────────────────── Cas limites ──────────────────────────────────────────────
+# ----------------------- Cas limites ----------------------------------------------
 def test_missing_body():
     r = _req('POST', '/predict', data='invalid json', headers={'Content-Type': 'application/json'})
-    # 400 ou 200 selon la tolérance — ne doit pas crasher (5xx)
+    # 400 ou 200 selon la tolerance - ne doit pas crasher (5xx)
     assert r.status_code < 500, f"Erreur serveur inattendue : {r.status_code}"
-    print(f"{PASS} corps invalide     — HTTP {r.status_code} (pas de crash)")
+    print(f"{PASS} corps invalide     - HTTP {r.status_code} (pas de crash)")
 
 
 def test_stats_updated():
     r = _req('GET', '/stats')
     d = r.json()
-    assert d['total'] > 0, "Compteur total non incrémenté"
-    print(f"{PASS} /stats final       — total={d['total']}, blocked={d['blocked']}, taux={d['block_rate']}%")
+    assert d['total'] > 0, "Compteur total non incremente"
+    print(f"{PASS} /stats final       - total={d['total']}, blocked={d['blocked']}, taux={d['block_rate']}%")
 
 
-# ─────────────────────── Runner principal ──────────────────────────────────────────
+# ----------------------- Runner principal ------------------------------------------
 def run_all():
     print('=' * 60)
-    print('  Tests WAF intelligent — Suite complète')
+    print('  Tests WAF intelligent - Suite complete')
     print('=' * 60)
 
     tests = [
@@ -226,7 +226,7 @@ def run_all():
         # Analyse /analyze
         test_analyze_normal,
         test_analyze_malicious,
-        # Proxy temps réel
+        # Proxy temps reel
         test_proxy_blocks_sqli,
         test_proxy_allows_normal,
         # Cas limites
@@ -248,7 +248,7 @@ def run_all():
             sys.exit(1)
 
     print('=' * 60)
-    print(f'  Résultat : {passed} réussis / {failed} échecs / {len(tests)} tests')
+    print(f'  Resultat : {passed} reussis / {failed} echecs / {len(tests)} tests')
     print('=' * 60)
     return failed == 0
 

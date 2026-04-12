@@ -1,16 +1,16 @@
-# Rapport scientifique
-# WAF intelligent basé sur le Machine Learning
-## Détection automatique de requêtes web malicieuses par apprentissage automatique
+﻿# Rapport scientifique
+# WAF intelligent bas sur le Machine Learning
+## Dtection automatique de requtes web malicieuses par apprentissage automatique
 
-**Auteur :** Équipe projet-reseau  
+**Auteur :** quipe projet-reseau  
 **Date :** Avril 2026  
 **Repository :** https://github.com/dica11/projet-reseau
 
 ---
 
-## Résumé
+## Rsum
 
-Ce rapport présente la conception, l'implémentation et l'évaluation d'un Web Application Firewall (WAF) intelligent fondé sur des techniques de machine learning. L'objectif est de dépasser les limites des WAF basés sur des règles statiques en s'appuyant sur un modèle d'apprentissage automatique capable de classer en temps réel les requêtes HTTP comme normales ou malicieuses. Quatre algorithmes ont été comparés : régression logistique, forêt aléatoire, SVM et réseau de neurones. Le meilleur modèle (MLPClassifier) atteint un F1-score de 1.0 sur l'ensemble de test. Un prototype complet sous Flask a été déployé et validé par une suite de 14 tests automatisés (100 % de réussite).
+Ce rapport prsente la conception, l'implmentation et l'valuation d'un Web Application Firewall (WAF) intelligent fond sur des techniques de machine learning. L'objectif est de dpasser les limites des WAF bass sur des rgles statiques en s'appuyant sur un modle d'apprentissage automatique capable de classer en temps rel les requtes HTTP comme normales ou malicieuses. Quatre algorithmes ont t compars : rgression logistique, fort alatoire, SVM et rseau de neurones. Le meilleur modle (MLPClassifier) atteint un F1-score de 1.0 sur l'ensemble de test. Un prototype complet sous Flask a t dploy et valid par une suite de 14 tests automatiss (100 % de russite).
 
 ---
 
@@ -18,160 +18,160 @@ Ce rapport présente la conception, l'implémentation et l'évaluation d'un Web 
 
 ### 1.1 Contexte et enjeux
 
-La sécurité des applications web est aujourd'hui un enjeu critique. Selon le rapport Verizon Data Breach Investigations (2024), plus de 40 % des violations de données impliquent des applications web. Les attaques les plus fréquentes — injections SQL, traversées de répertoires, scans automatiques — ciblent directement les serveurs applicatifs et peuvent conduire à l'exfiltration de données sensibles, la prise de contrôle de systèmes ou l'interruption de service.
+La scurit des applications web est aujourd'hui un enjeu critique. Selon le rapport Verizon Data Breach Investigations (2024), plus de 40 % des violations de donnes impliquent des applications web. Les attaques les plus frquentes  injections SQL, traverses de rpertoires, scans automatiques  ciblent directement les serveurs applicatifs et peuvent conduire  l'exfiltration de donnes sensibles, la prise de contrle de systmes ou l'interruption de service.
 
-Les Web Application Firewalls (WAF) constituent la défense de première ligne. Cependant, les solutions classiques (ModSecurity, AWS WAF, etc.) reposent sur des signatures statiques ou des listes de règles maintenues manuellement. Cette approche présente deux limites fondamentales :
+Les Web Application Firewalls (WAF) constituent la dfense de premire ligne. Cependant, les solutions classiques (ModSecurity, AWS WAF, etc.) reposent sur des signatures statiques ou des listes de rgles maintenues manuellement. Cette approche prsente deux limites fondamentales :
 
-1. **Réactivité faible** : un nouveau vecteur d'attaque non répertorié n'est pas détecté avant la mise à jour des règles.
-2. **Taux de faux positifs élevé** : des règles trop génériques bloquent du trafic légitime, nuisant à l'expérience utilisateur.
+1. **Ractivit faible** : un nouveau vecteur d'attaque non rpertori n'est pas dtect avant la mise  jour des rgles.
+2. **Taux de faux positifs lev** : des rgles trop gnriques bloquent du trafic lgitime, nuisant  l'exprience utilisateur.
 
-### 1.2 Problématique
+### 1.2 Problmatique
 
-Comment concevoir un WAF capable d'apprendre automatiquement les caractéristiques distinguant une requête normale d'une requête malicieuse, sans nécessiter de mise à jour manuelle des règles ?
+Comment concevoir un WAF capable d'apprendre automatiquement les caractristiques distinguant une requte normale d'une requte malicieuse, sans ncessiter de mise  jour manuelle des rgles ?
 
 ### 1.3 Objectifs du projet
 
-- Construire un dataset synthétique représentatif du trafic web réel et malicieux.
-- Extraire des features pertinentes à partir des métadonnées HTTP.
-- Entraîner et comparer plusieurs modèles de machine learning.
-- Déployer le meilleur modèle dans un proxy WAF opérationnel (Flask).
-- Valider le système par des tests automatisés couvrant des scenarios d'attaque réels.
+- Construire un dataset synthtique reprsentatif du trafic web rel et malicieux.
+- Extraire des features pertinentes  partir des mtadonnes HTTP.
+- Entraner et comparer plusieurs modles de machine learning.
+- Dployer le meilleur modle dans un proxy WAF oprationnel (Flask).
+- Valider le systme par des tests automatiss couvrant des scenarios d'attaque rels.
 
 ---
 
-## 2. État de l'art
+## 2. tat de l'art
 
 ### 2.1 Principales attaques web
 
 | Attaque | Description | Exemple |
 |---|---|---|
-| **SQL Injection (SQLi)** | Injection de code SQL dans les paramètres d'URL ou de formulaire | `?id=1 UNION SELECT null,version()--` |
-| **Path Traversal** | Navigation hors du répertoire web autorisé | `/../../../../etc/passwd` |
-| **XSS (Cross-Site Scripting)** | Injection de code JavaScript dans des réponses web | `<script>alert(1)</script>` |
-| **Scan automatique** | Reconnaissance de vulnérabilités par des outils (Nikto, sqlmap) | User-Agent: `Nikto/2.1.6` |
-| **Shell upload** | Dépôt d'un fichier exécutable malicieux via une interface d'upload | `/upload.php?file=shell.php` |
+| **SQL Injection (SQLi)** | Injection de code SQL dans les paramtres d'URL ou de formulaire | `?id=1 UNION SELECT null,version()--` |
+| **Path Traversal** | Navigation hors du rpertoire web autoris | `/../../../../etc/passwd` |
+| **XSS (Cross-Site Scripting)** | Injection de code JavaScript dans des rponses web | `<script>alert(1)</script>` |
+| **Scan automatique** | Reconnaissance de vulnrabilits par des outils (Nikto, sqlmap) | User-Agent: `Nikto/2.1.6` |
+| **Shell upload** | Dpt d'un fichier excutable malicieux via une interface d'upload | `/upload.php?file=shell.php` |
 
 ### 2.2 WAF traditionnels
 
 Les solutions commerciales et open-source reposent principalement sur :
 
 - **Signatures statiques** (ModSecurity avec le Core Rule Set OWASP) : efficaces contre les attaques connues, contournables par obfuscation.
-- **Listes noires/blanches** d'IP ou de user-agents : maintenance coûteuse, peu scalable.
-- **Analyse heuristique** : détection de patterns suspects, source de nombreux faux positifs.
+- **Listes noires/blanches** d'IP ou de user-agents : maintenance coteuse, peu scalable.
+- **Analyse heuristique** : dtection de patterns suspects, source de nombreux faux positifs.
 
-**Limites identifiées :** rigidité, manque d'adaptation aux nouvelles attaques, difficulté à traiter des volumes importants de trafic hétérogène.
+**Limites identifies :** rigidit, manque d'adaptation aux nouvelles attaques, difficult  traiter des volumes importants de trafic htrogne.
 
 ### 2.3 Apports du Machine Learning
 
-L'apprentissage automatique permet d'apprendre des représentations statistiques du trafic normal et anormal, offrant :
+L'apprentissage automatique permet d'apprendre des reprsentations statistiques du trafic normal et anormal, offrant :
 
-- **Généralisation** : détection d'attaques inédites présentant des patterns similaires aux attaques connues.
-- **Adaptabilité** : le modèle peut être ré-entraîné sur de nouvelles données.
-- **Classification probabiliste** : fourniture d'un score de confiance, permettant de graduer la réponse.
+- **Gnralisation** : dtection d'attaques indites prsentant des patterns similaires aux attaques connues.
+- **Adaptabilit** : le modle peut tre r-entran sur de nouvelles donnes.
+- **Classification probabiliste** : fourniture d'un score de confiance, permettant de graduer la rponse.
 
-Des travaux récents (Sharma & Singh, 2023 ; Nguyen et al., 2024) montrent que les approches Random Forest et Deep Learning surpassent significativement les règles statiques sur des jeux de données réels (CICIDS, HTTP CSIC 2010).
+Des travaux rcents (Sharma & Singh, 2023 ; Nguyen et al., 2024) montrent que les approches Random Forest et Deep Learning surpassent significativement les rgles statiques sur des jeux de donnes rels (CICIDS, HTTP CSIC 2010).
 
 ---
 
-## 3. Méthodologie
+## 3. Mthodologie
 
-### 3.1 Dataset synthétique
+### 3.1 Dataset synthtique
 
-En l'absence de données réelles disponibles dans le cadre de ce projet, un dataset synthétique a été généré pour simuler un trafic web réaliste.
+En l'absence de donnes relles disponibles dans le cadre de ce projet, un dataset synthtique a t gnr pour simuler un trafic web raliste.
 
-**Composition :** 100 requêtes HTTP, dont 21 malicieuses (21 %).
+**Composition :** 100 requtes HTTP, dont 21 malicieuses (21 %).
 
-**Requêtes normales (79 %)** — Chemins : `/`, `/index.html`, `/login`, `/products`, `/api/data`, `/dashboard`
+**Requtes normales (79 %)**  Chemins : `/`, `/index.html`, `/login`, `/products`, `/api/data`, `/dashboard`
 
-**Requêtes malicieuses (21 %)** — Incluant :
+**Requtes malicieuses (21 %)**  Incluant :
 - Injections SQL : `/admin/users.php?id=1 UNION SELECT null,null,version()--`
 - Path traversal : `/../../../../windows/system32/cmd.exe`
-- Exploitation de fichiers système : `/etc/passwd`
-- Accès phpmyadmin : `/phpmyadmin/index.php?pma_username=root`
+- Exploitation de fichiers systme : `/etc/passwd`
+- Accs phpmyadmin : `/phpmyadmin/index.php?pma_username=root`
 - Webshells : `/shell.php`, `/upload.php?file=evil.php`
 - Scan WordPress : `/wp-admin/admin-ajax.php`
 
-**User-agents** : navigateurs légitimes, curl, Python-requests, Nikto, sqlmap.
+**User-agents** : navigateurs lgitimes, curl, Python-requests, Nikto, sqlmap.
 
 ### 3.2 Extraction de features (Feature Engineering)
 
-29 features binaires ou numériques ont été extraites de chaque requête HTTP :
+29 features binaires ou numriques ont t extraites de chaque requte HTTP :
 
-| Catégorie | Features | Nombre |
+| Catgorie | Features | Nombre |
 |---|---|---|
 | Longueur et structure du chemin | `path_length`, `param_count` | 2 |
-| Mots-clés suspects | `has_select`, `has_union`, `has_script`, `has_slash_slash`, `has_or_1_1`, `has_cmd_dot_exe`, `has_passwd`, `has_shell`, `has_upload`, `has_phpmyadmin`, `has_admin` | 11 |
-| Caractères spéciaux | `special_char_count` | 1 |
-| Méthode HTTP (one-hot) | `method_GET/POST/PUT/DELETE` | 4 |
+| Mots-cls suspects | `has_select`, `has_union`, `has_script`, `has_slash_slash`, `has_or_1_1`, `has_cmd_dot_exe`, `has_passwd`, `has_shell`, `has_upload`, `has_phpmyadmin`, `has_admin` | 11 |
+| Caractres spciaux | `special_char_count` | 1 |
+| Mthode HTTP (one-hot) | `method_GET/POST/PUT/DELETE` | 4 |
 | Code statut HTTP (one-hot) | `status_200/301/400/401/403/404/500` | 7 |
 | User-agent suspect | `user_agent_sqlmap`, `user_agent_nikto`, `user_agent_curl`, `user_agent_python` | 4 |
 | **Total** | | **29** |
 
-### 3.3 Modèles de machine learning
+### 3.3 Modles de machine learning
 
-Quatre algorithmes de classification supervisée ont été évalués :
+Quatre algorithmes de classification supervise ont t valus :
 
-| Modèle | Hyperparamètres | Justification |
+| Modle | Hyperparamtres | Justification |
 |---|---|---|
-| **Logistic Regression** | `max_iter=1000` | Baseline interprétable |
-| **Random Forest** | `n_estimators=100, random_state=42` | Robuste, gère les features non linéaires |
+| **Logistic Regression** | `max_iter=1000` | Baseline interprtable |
+| **Random Forest** | `n_estimators=100, random_state=42` | Robuste, gre les features non linaires |
 | **SVM** | `kernel=rbf, random_state=42` | Efficace sur espaces de haute dimension |
 | **Neural Network (MLP)** | `max_iter=500, random_state=42` | Capture les interactions complexes |
 
-**Séparation train/test :** 80/20 stratifiée (80 exemples d'entraînement, 20 de test), `random_state=42`.
+**Sparation train/test :** 80/20 stratifie (80 exemples d'entranement, 20 de test), `random_state=42`.
 
 ---
 
-## 4. Résultats expérimentaux
+## 4. Rsultats exprimentaux
 
-### 4.1 Performances comparées
+### 4.1 Performances compares
 
-| Modèle | Accuracy | Precision | Recall | F1-score |
+| Modle | Accuracy | Precision | Recall | F1-score |
 |---|---|---|---|---|
 | **Neural Network (MLP)** | **1.000** | **1.000** | **1.000** | **1.000** |
 | Logistic Regression | 0.900 | 1.000 | 0.500 | 0.667 |
 | Random Forest | 0.900 | 1.000 | 0.500 | 0.667 |
 | SVM | 0.900 | 1.000 | 0.500 | 0.667 |
 
-Le **MLPClassifier** (réseau de neurones multicouche) domine nettement avec un F1-score parfait de 1.0, contre 0.667 pour les trois autres modèles.
+Le **MLPClassifier** (rseau de neurones multicouche) domine nettement avec un F1-score parfait de 1.0, contre 0.667 pour les trois autres modles.
 
-L'écart s'explique par le **recall** : le MLP détecte 100 % des requêtes malicieuses, tandis que les autres modèles n'en détectent que 50 % (recall = 0.5). La precision étant de 1.0 pour tous, il n'y a aucun faux positif dans les quatre cas.
+L'cart s'explique par le **recall** : le MLP dtecte 100 % des requtes malicieuses, tandis que les autres modles n'en dtectent que 50 % (recall = 0.5). La precision tant de 1.0 pour tous, il n'y a aucun faux positif dans les quatre cas.
 
-### 4.2 Matrice de confusion — Neural Network (meilleur modèle)
+### 4.2 Matrice de confusion  Neural Network (meilleur modle)
 
 ```
-                Prédit NORMAL   Prédit MALICIEUX
-Réel NORMAL          16               0          ← 0 faux positifs
-Réel MALICIEUX        0               4          ← 0 faux négatifs
+                Prdit NORMAL   Prdit MALICIEUX
+Rel NORMAL          16               0           0 faux positifs
+Rel MALICIEUX        0               4           0 faux ngatifs
 ```
 
-**Interprétation :**
-- **16 vrais négatifs** : toutes les requêtes normales correctement autorisées.
-- **4 vrais positifs** : toutes les requêtes malicieuses correctement détectées.
-- **0 faux positifs** : aucun blocage abusif de trafic légitime.
-- **0 faux négatifs** : aucune attaque non détectée.
+**Interprtation :**
+- **16 vrais ngatifs** : toutes les requtes normales correctement autorises.
+- **4 vrais positifs** : toutes les requtes malicieuses correctement dtectes.
+- **0 faux positifs** : aucun blocage abusif de trafic lgitime.
+- **0 faux ngatifs** : aucune attaque non dtecte.
 
 ### 4.3 Tests d'attaque sur le proxy WAF
 
-La suite de 14 tests automatisés (`test_flask_waf.py`) valide le comportement du proxy en conditions réelles :
+La suite de 14 tests automatiss (`test_flask_waf.py`) valide le comportement du proxy en conditions relles :
 
-| Test | Résultat | Probabilité malicieuse |
+| Test | Rsultat | Probabilit malicieuse |
 |---|---|---|
-| Requête GET normale `/products` | AUTORISÉ | 2.1% |
-| SQLi `UNION SELECT` (sqlmap UA) |  BLOQUÉ (HTTP 403) | 100.0% |
-| Path traversal `/../../../../etc/passwd` |  BLOQUÉ | 100.0% |
-| Scan Nikto `/phpmyadmin/index.php` | BLOQUÉ | 98.9% |
-| Shell upload `/upload.php?file=shell.php` |  BLOQUÉ | 100.0% |
-| `/proxy` SQLi (trafic HTTP réel) |  BLOQUÉ (HTTP 403) | 100.0% |
-| `/proxy` requête normale |  TRANSFÉRÉ (HTTP 200) | 0.1% |
+| Requte GET normale `/products` | AUTORIS | 2.1% |
+| SQLi `UNION SELECT` (sqlmap UA) |  BLOQU (HTTP 403) | 100.0% |
+| Path traversal `/../../../../etc/passwd` |  BLOQU | 100.0% |
+| Scan Nikto `/phpmyadmin/index.php` | BLOQU | 98.9% |
+| Shell upload `/upload.php?file=shell.php` |  BLOQU | 100.0% |
+| `/proxy` SQLi (trafic HTTP rel) |  BLOQU (HTTP 403) | 100.0% |
+| `/proxy` requte normale |  TRANSFR (HTTP 200) | 0.1% |
 
-**Résultat global : 14/14 tests réussis (100 %)**
+**Rsultat global : 14/14 tests russis (100 %)**
 
 ### 4.4 Simulation OWASP ZAP Active Scanner
 
-Un second script (`test_owasp_zap.py`) reproduit les payloads réels de l'active scanner OWASP ZAP en les envoyant sur le proxy WAF. Les payloads proviennent directement du code source des modules ZAP (`zap-extensions/addOns/ascanrules`).
+Un second script (`test_owasp_zap.py`) reproduit les payloads rels de l'active scanner OWASP ZAP en les envoyant sur le proxy WAF. Les payloads proviennent directement du code source des modules ZAP (`zap-extensions/addOns/ascanrules`).
 
-| Catégorie ZAP | Payloads | Bloqués | Taux |
+| Catgorie ZAP | Payloads | Bloqus | Taux |
 |---|---|---|---|
 | SQL Injection (`TestSQLInjection`) | 15 | 15 | 100 % |
 | Path Traversal (`TestPathTraversal`) | 12 | 9 | 75 % |
@@ -180,7 +180,7 @@ Un second script (`test_owasp_zap.py`) reproduit les payloads réels de l'active
 | Remote File Include (`TestRemoteFileInclude`) | 4 | 4 | 100 % |
 | **TOTAL** | **50** | **47** | **94 %** |
 
-Les 3 payloads non bloqués correspondent à des chemins absolus comme `/etc/passwd` sans séquence de traversal — Flask retourne une redirection HTTP 308 avant que le WAF ne puisse les classifier. Aucun faux positif n'a été observé sur le trafic normal.
+Les 3 payloads non bloqus correspondent  des chemins absolus comme `/etc/passwd` sans squence de traversal  Flask retourne une redirection HTTP 308 avant que le WAF ne puisse les classifier. Aucun faux positif n'a t observ sur le trafic normal.
 
 ---
 
@@ -189,108 +189,108 @@ Les 3 payloads non bloqués correspondent à des chemins absolus comme `/etc/pas
 ### 5.1 Vue d'ensemble
 
 ```
-      Requête HTTP
-           │
-           ▼
-    ┌─────────────┐
-    │  Flask WAF  │   waf_flask_app.py
-    │  (port 5000)│
-    └──────┬──────┘
-           │
-    ┌──────▼──────┐
-    │  Extraction │   extract_features()
-    │  29 features│   re, pandas
-    └──────┬──────┘
-           │
-    ┌──────▼──────┐
-    │  MLPClassifier│  waf_model.joblib
-    │  (sklearn)  │
-    └──────┬──────┘
-           │
-    ┌──────▼──────────────────┐
-    │  prediction == 1 ?      │
-    │  OUI → 403 BLOQUÉ       │
-    │  NON → Forward backend  │
-    └─────────────────────────┘
+      Requte HTTP
+           
+           
+    
+      Flask WAF     waf_flask_app.py
+      (port 5000)
+    
+           
+    
+      Extraction    extract_features()
+      29 features   re, pandas
+    
+           
+    
+      MLPClassifier  waf_model.joblib
+      (sklearn)  
+    
+           
+    
+      prediction == 1 ?      
+      OUI  403 BLOQU       
+      NON  Forward backend  
+    
 ```
 
 ### 5.2 Endpoints disponibles
 
-| Méthode | Endpoint | Description |
+| Mthode | Endpoint | Description |
 |---|---|---|
 | GET | `/` | Statut du service |
-| GET | `/health` | Santé du service et du modèle |
-| GET | `/stats` | Statistiques en temps réel |
-| POST | `/predict` | Classification JSON d'une requête |
-| POST | `/analyze` | Classification + features détaillées |
-| ANY | `/proxy/<path>` | Proxy WAF temps réel |
+| GET | `/health` | Sant du service et du modle |
+| GET | `/stats` | Statistiques en temps rel |
+| POST | `/predict` | Classification JSON d'une requte |
+| POST | `/analyze` | Classification + features dtailles |
+| ANY | `/proxy/<path>` | Proxy WAF temps rel |
 
 ---
 
 ## 6. Discussion et limites
 
-### 6.1 Analyse critique des résultats
+### 6.1 Analyse critique des rsultats
 
-Le F1-score de 1.0 obtenu par le MLPClassifier est excellent mais doit être nuancé :
+Le F1-score de 1.0 obtenu par le MLPClassifier est excellent mais doit tre nuanc :
 
-- **Dataset synthétique de petite taille** (100 exemples) : les séparations entre classes sont artificiellement nettes, ce qui favorise les performances parfaites. Sur un dataset réel de plusieurs milliers de requêtes avec des vecteurs d'attaque variés, le score serait probablement plus bas.
-- **Overfitting potentiel** : un MLP sur 80 exemples d'entraînement peut mémoriser les données plutôt que généraliser.
-- **Distribution calibrée** : les user-agents (sqlmap, Nikto) constituent des features très discriminantes — en leur absence, le recall pourrait chuter.
+- **Dataset synthtique de petite taille** (100 exemples) : les sparations entre classes sont artificiellement nettes, ce qui favorise les performances parfaites. Sur un dataset rel de plusieurs milliers de requtes avec des vecteurs d'attaque varis, le score serait probablement plus bas.
+- **Overfitting potentiel** : un MLP sur 80 exemples d'entranement peut mmoriser les donnes plutt que gnraliser.
+- **Distribution calibre** : les user-agents (sqlmap, Nikto) constituent des features trs discriminantes  en leur absence, le recall pourrait chuter.
 
-### 6.2 Limites identifiées
+### 6.2 Limites identifies
 
 | Limite | Impact | Mitigation possible |
 |---|---|---|
-| Dataset synthétique | Généralisation non garantie | Utiliser HTTP CSIC 2010, CICIDS |
-| Pas d'attaques zero-day | Nouvelles techniques non détectées | Ré-entraînement continu, détection d'anomalies |
-| Features simples (URL) | Contournement par obfuscation | Analyse du corps des requêtes, encodages multiples |
-| Modèle statique | Dérive temporelle (concept drift) | Mise à jour périodique du modèle |
+| Dataset synthtique | Gnralisation non garantie | Utiliser HTTP CSIC 2010, CICIDS |
+| Pas d'attaques zero-day | Nouvelles techniques non dtectes | R-entranement continu, dtection d'anomalies |
+| Features simples (URL) | Contournement par obfuscation | Analyse du corps des requtes, encodages multiples |
+| Modle statique | Drive temporelle (concept drift) | Mise  jour priodique du modle |
 | Pas d'authentification | Endpoint `/predict` accessible sans protection | API key, mTLS |
 
-### 6.3 Perspectives d'amélioration
+### 6.3 Perspectives d'amlioration
 
-1. **Deep Learning** : utiliser des modèles LSTM ou Transformers pour capturer la structure séquentielle des chemins URL.
-2. **Features comportementales** : fréquence de requêtes par IP, distribution temporelle, séquence de pages.
-3. **Détection d'anomalies non supervisée** : Isolation Forest ou Autoencoder pour détecter des comportements inédits sans labels.
-4. **Intégration SIEM** : envoi des alertes vers un système de surveillance centralisé (Elasticsearch, Splunk).
-5. **Données réelles** : entraînement sur le dataset HTTP CSIC 2010 ou OWASP WebGoat logs.
-6. **Évaluation adversariale** : tester la robustesse contre des attaques d'évasion (obfuscation SQL, encodage Base64).
+1. **Deep Learning** : utiliser des modles LSTM ou Transformers pour capturer la structure squentielle des chemins URL.
+2. **Features comportementales** : frquence de requtes par IP, distribution temporelle, squence de pages.
+3. **Dtection d'anomalies non supervise** : Isolation Forest ou Autoencoder pour dtecter des comportements indits sans labels.
+4. **Intgration SIEM** : envoi des alertes vers un systme de surveillance centralis (Elasticsearch, Splunk).
+5. **Donnes relles** : entranement sur le dataset HTTP CSIC 2010 ou OWASP WebGoat logs.
+6. **valuation adversariale** : tester la robustesse contre des attaques d'vasion (obfuscation SQL, encodage Base64).
 
 ---
 
 ## 7. Conclusion
 
-Ce projet a démontré la faisabilité d'un WAF intelligent basé sur le machine learning. En partant d'un dataset synthétique de 100 requêtes HTTP, nous avons :
+Ce projet a dmontr la faisabilit d'un WAF intelligent bas sur le machine learning. En partant d'un dataset synthtique de 100 requtes HTTP, nous avons :
 
-- Extrait 29 features comportementales et structurelles des requêtes HTTP.
-- Comparé 4 algorithmes de classification : le MLPClassifier s'est imposé avec un F1-score de 1.0.
-- Déployé un proxy WAF opérationnel sous Flask, capable d'intercepter, classifier et bloquer des attaques en temps réel.
-- Validé l'ensemble par 14 tests automatisés couvrant SQLi, path traversal, scan Nikto, shell upload et trafic normal.
+- Extrait 29 features comportementales et structurelles des requtes HTTP.
+- Compar 4 algorithmes de classification : le MLPClassifier s'est impos avec un F1-score de 1.0.
+- Dploy un proxy WAF oprationnel sous Flask, capable d'intercepter, classifier et bloquer des attaques en temps rel.
+- Valid l'ensemble par 14 tests automatiss couvrant SQLi, path traversal, scan Nikto, shell upload et trafic normal.
 
-Les limites principales tiennent à la taille et à la nature synthétique du dataset. Les prochaines étapes consistent à évaluer le système sur des données réelles, à intégrer des features comportementales et à explorer les modèles de deep learning pour améliorer la généralisation.
+Les limites principales tiennent  la taille et  la nature synthtique du dataset. Les prochaines tapes consistent  valuer le systme sur des donnes relles,  intgrer des features comportementales et  explorer les modles de deep learning pour amliorer la gnralisation.
 
 ---
 
 ## 8. Annexes
 
-### Annexe A — Structure du repository
+### Annexe A  Structure du repository
 
 ```
 projet-reseau/
-├── waf_etapes.ipynb         # Notebook ML complet (exploration → modèle)
-├── waf_flask_app.py         # Proxy WAF Flask
-├── test_flask_waf.py        # Suite de tests (14 tests)
-├── test_owasp_zap.py        # Simulation OWASP ZAP active scanner (50 payloads)
-├── waf_model.joblib         # Modèle MLPClassifier exporté
-├── donnees_nettoyees.csv    # Dataset nettoyé après feature engineering
-├── setup_env.ps1            # Script d'installation Python 3.12
-├── plan_travail.md          # Plan de travail 4 semaines
-├── plan_rapport.md          # Structure du rapport
-├── plan_presentation.md     # Structure des slides
-└── discussion_limites.md    # Analyse critique
+ waf_etapes.ipynb         # Notebook ML complet (exploration  modle)
+ waf_flask_app.py         # Proxy WAF Flask
+ test_flask_waf.py        # Suite de tests (14 tests)
+ test_owasp_zap.py        # Simulation OWASP ZAP active scanner (50 payloads)
+ waf_model.joblib         # Modle MLPClassifier export
+ donnees_nettoyees.csv    # Dataset nettoy aprs feature engineering
+ setup_env.ps1            # Script d'installation Python 3.12
+ plan_travail.md          # Plan de travail 4 semaines
+ plan_rapport.md          # Structure du rapport
+ plan_presentation.md     # Structure des slides
+ discussion_limites.md    # Analyse critique
 ```
 
-### Annexe B — Extrait de features pour une requête SQLi
+### Annexe B  Extrait de features pour une requte SQLi
 
 ```json
 {
@@ -305,19 +305,19 @@ projet-reseau/
   "method_GET":     1,
   "status_200":     1
 }
-→ Prédiction : MALICIEUX (probabilité = 100.0%)
+ Prdiction : MALICIEUX (probabilit = 100.0%)
 ```
 
-### Annexe C — Métriques clés
+### Annexe C  Mtriques cls
 
-| Métrique | Valeur | Formule |
+| Mtrique | Valeur | Formule |
 |---|---|---|
 | Accuracy | 1.000 | (TP+TN)/(TP+TN+FP+FN) |
 | Precision | 1.000 | TP/(TP+FP) |
 | Recall | 1.000 | TP/(TP+FN) |
-| F1-score | 1.000 | 2·P·R/(P+R) |
-| Faux positifs | 0 | Trafic légitime bloqué |
-| Faux négatifs | 0 | Attaques non détectées |
+| F1-score | 1.000 | 2PR/(P+R) |
+| Faux positifs | 0 | Trafic lgitime bloqu |
+| Faux ngatifs | 0 | Attaques non dtectes |
 
 ---
 
@@ -349,4 +349,5 @@ projet-reseau/
 
 ---
 
-*Rapport genere le 7 avril 2026 — projet-reseau / dica11*
+*Rapport genere le 7 avril 2026  projet-reseau / dica11*
+

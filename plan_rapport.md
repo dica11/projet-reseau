@@ -1,34 +1,35 @@
-# Plan de rapport scientifique
+﻿# Plan de rapport scientifique
 
 1. Introduction
-   - Contexte et enjeux de la sécurité web
-   - Problématique des attaques web et limites des WAF classiques
+   - Contexte et enjeux de la scurit web
+   - Problmatique des attaques web et limites des WAF classiques
    - Objectifs du projet
 
-2. État de l’art
+2. tat de lart
    - Principales attaques web (SQLi, XSS, etc.)
    - Fonctionnement des WAF traditionnels
-   - Apports de l’IA et du machine learning pour la détection
+   - Apports de lIA et du machine learning pour la dtection
 
-3. Méthodologie
-   - Description du dataset utilisé
-   - Prétraitement et extraction de caractéristiques
-   - Modèles de machine learning testés
+3. Mthodologie
+   - Description du dataset utilis
+   - Prtraitement et extraction de caractristiques
+   - Modles de machine learning tests
    - Architecture du prototype WAF (Flask)
 
-4. Résultats expérimentaux
-   - Performances des modèles (accuracy, recall, F1, etc.)
+4. Rsultats exprimentaux
+   - Performances des modles (accuracy, recall, F1, etc.)
    - Analyse de la matrice de confusion
-   - Tests d’attaque (exemples, résultats)
+   - Tests dattaque (exemples, rsultats)
 
 5. Discussion et limites
-   - Analyse critique des résultats
-   - Limites du modèle (généralisation, biais, zero-day)
-   - Perspectives d’amélioration (deep learning, détection d’anomalies, SIEM)
+   - Analyse critique des rsultats
+   - Limites du modle (gnralisation, biais, zero-day)
+   - Perspectives damlioration (deep learning, dtection danomalies, SIEM)
 
 6. Conclusion
    - Bilan du projet
    - Apports et perspectives
 
 7. Annexes
-   - Extraits de code, figures, jeux de données
+   - Extraits de code, figures, jeux de donnes
+
